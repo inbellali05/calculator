@@ -65,6 +65,23 @@ numberButtons.forEach((button) => {
         display.textContent = currentNumber;
     });
 });
+const decimalButton = document.querySelector(".decimal");
+
+decimalButton.addEventListener("click", () => {
+    if (justCalculated) {
+        currentNumber = "";
+        justCalculated = false;
+    }
+
+    if (!currentNumber.includes(".")) {
+        if (currentNumber === "") {
+            currentNumber = "0";
+        }
+
+        currentNumber += ".";
+        display.textContent = currentNumber;
+    }
+});
 
 
 // OPERATOR BUTTONS
@@ -152,4 +169,54 @@ clearButton.addEventListener("click", () => {
     justCalculated = false;
 
     display.textContent = "0";
+});
+const backspaceButton = document.querySelector(".backspace");
+
+backspaceButton.addEventListener("click", () => {
+    if (justCalculated) {
+        return;
+    }
+
+    currentNumber = currentNumber.slice(0, -1);
+
+    if (currentNumber === "") {
+        display.textContent = "0";
+    } else {
+        display.textContent = currentNumber;
+    }
+});
+document.addEventListener("keydown", (event) => {
+    const key = event.key;
+
+    if (key >= "0" && key <= "9") {
+        document.querySelectorAll(".number").forEach((button) => {
+            if (button.textContent === key) {
+                button.click();
+            }
+        });
+    }
+
+    if (["+", "-", "*", "/"].includes(key)) {
+        document.querySelectorAll(".operator").forEach((button) => {
+            if (button.textContent === key) {
+                button.click();
+            }
+        });
+    }
+
+    if (key === "Enter" || key === "=") {
+        equalsButton.click();
+    }
+
+    if (key === ".") {
+        decimalButton.click();
+    }
+
+    if (key === "Backspace") {
+        backspaceButton.click();
+    }
+
+    if (key === "Escape") {
+        clearButton.click();
+    }
 });
